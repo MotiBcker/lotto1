@@ -1,1 +1,128 @@
+import random
+import datetime
+from tkinter import *
 
+lotto = []
+
+
+def read():
+    zahl = []
+    maxi = 0
+
+    aktuell = int(input_feld.get())
+
+    lotto.append(aktuell)
+
+    if len(lotto) < 4:
+        return aktuell
+    lotto.sort()
+
+    lottozahlen_alle = []
+    lottozahlen_alle.extend(range(1, 21))
+    lottozahlen_gewinner = random.sample(lottozahlen_alle, 4)
+    lottozahlen_gewinner.sort()
+    print(lottozahlen_gewinner)
+
+    while zahl != lotto:
+        nummer = 0
+
+        for i in range(1, 20):
+            zahl.append(i)
+
+        cha = random.sample(zahl, 4)
+        cha.sort()
+
+        if cha[0] in lottozahlen_gewinner:
+            nummer = nummer + 1
+        else:
+            nummer = nummer + 0
+        if cha[1] in lottozahlen_gewinner:
+            nummer = nummer + 1
+        else:
+            nummer = nummer + 0
+        if cha[2] in lottozahlen_gewinner:
+            nummer = nummer + 1
+        else:
+            nummer = nummer + 0
+        if cha[3] in lottozahlen_gewinner:
+            nummer = nummer + 1
+        else:
+            nummer = nummer + 0
+
+        if cha == lotto:
+            print(cha, " gefunden in ", maxi + 1, "versuchen")
+
+            root = Tk()
+            root.configure(background="black")
+
+            Label(root,
+                  text=f" Heute ist der {x}",
+                  fg="#9797FF",
+                  bg="black",
+                  font=("Times", 25)).pack()
+
+            Label(root,
+                  text=f"die aktuellen lottozahlen lauten {lottozahlen_gewinner}",
+                  fg="white",
+                  bg="black",
+                  font=("Times", 28)).pack()
+
+            Label(root,
+                  text="Deine Lottozahlen lauten:",
+                  fg="white",
+                  bg="red",
+                  font=("Times", 28)).pack()
+            Label(root,
+                  text=cha,
+                  fg="black",
+                  bg="white",
+                  font=("Helvetica 16 bold italic", 27)).pack()
+
+            Label(root,
+                  text=f"Es hätte {maxi} versuche gebraucht\ndie richtigen Zahlen zu finden",
+                  fg="white",
+                  bg="black",
+                  font=("Helvetica 16 bold italic", 27)).pack()
+            Label(root,
+                  text="Das hätte sie gekostet: ",
+                  fg="white",
+                  bg="red",
+                  font=("Helvetica 16 bold italic", 27)).pack()
+
+            Label(root,
+                  text=f"{test} euro",
+                  fg="white",
+                  bg="black",
+                  font=("Helvetica 16 bold italic", 27)).pack()
+
+            Label(root,
+                  text=f"Du hast {nummer} Zahl(en) richtig geraten ",
+                  fg="red",
+                  bg="black",
+                  font=("Times", 25)).pack()
+            Label(root,
+                  text=" \U0001F649 \U0001F64A ",
+                  fg="red",
+                  bg="black",
+                  font=("Times", 55)).pack()
+            root.mainloop()
+
+            break
+        maxi = maxi + 1
+        print(cha, maxi)
+        print(lotto)
+
+        betrag = float(maxi * 1.20)
+        test = format(betrag, '.2f')
+
+        x = datetime.datetime.now()
+
+
+window = Tk()
+window.title("Gib 4 Zahlen ein zw. 1 und 20")
+input_feld = Entry(window)
+ok_button = Button(window, text="ok", command=read)
+input_feld.pack()
+ok_button.pack()
+
+window.mainloop()
